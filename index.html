@@ -4,19 +4,49 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="TimerApp">
+        <meta name="author" content="Luiz Fernando Maehana">
+
+        <meta property="og:locale" content="pt_BR">
+        <meta property="og:url" content="http://www.maehana.com.br/TimerApp">
+        <meta property="og:title" content="TimerApp">
+        <meta property="og:site_name" content="TimerApp">
+		<meta property="og:description" content="TimerApp">
+        <meta property="og:image" content="./img/logo.jpg">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:type" content="website">
 
         <title>TimerApp</title>
 
-        <link href="./css/style.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="./css/reset.css">
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link type="text/css" rel="stylesheet" href="./css/style.css">
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
     <body>
+        <header>
+            <nav class="cyan accent-4">
+                <div class="nav-wrapper container">
+                    <a href="#!" class="brand-logo lime-text accent-2"><i class="large material-icons">timer</i> <strong class="">TimerApp</strong></a>
+                </div>
+            </nav>
+        </header>
+        <main class="container">
+            <section class="valign-wrapper center-align">
+                <h5>This should be vertically aligned</h5>
+            </section>
+        </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         <script src="./js/script.js"></script>
+        <script>
+            document.addEventListener( "DOMContentLoaded" , function( e ) {
+                init();
+            } );
+        </script>
     </body>
 </html>
