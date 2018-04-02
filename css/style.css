@@ -1,0 +1,53 @@
+body {
+    font-family: monospace;
+}
+
+main.container {
+    padding-top: 2rem;
+}
+
+.timer-content {
+    flex-direction: column;
+}
+
+.timer-content .timer {
+    font-size: 8rem;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+    .timer-content .timer {
+        font-size: 15rem;
+        margin: 5rem auto;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .timer-content .timer {
+        font-size: 18rem;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .timer-content .timer {
+        font-size: 20rem;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .timer-content .timer {
+        font-size: 24rem;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .timer-content .timer {
+        font-size: 26rem;
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .timer-content .timer {
+        font-size: 30rem;
+    }
+}

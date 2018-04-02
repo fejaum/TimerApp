@@ -32,21 +32,31 @@
         <header>
             <nav class="cyan accent-4">
                 <div class="nav-wrapper container">
-                    <a href="#!" class="brand-logo lime-text accent-2"><i class="large material-icons">timer</i> <strong class="">TimerApp</strong></a>
+                    <a href="#!" class="brand-logo lime-text accent-2"><i class="large material-icons">timer</i></a>
                 </div>
             </nav>
         </header>
+        <audio id="audio" src="./mp3/beep.mp3" autostart="false" ></audio>
         <main class="container">
-            <section class="valign-wrapper center-align">
-                <h5>This should be vertically aligned</h5>
+            <form action="" method="get" onsubmit="return false;">
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <div class="input-field inline">
+                            <input id="tempo" type="number" value="1" min="1" max="60" />
+                            <label for="tempo">Cronometro</label>
+                            <span class="helper-text" data-error="wrong" data-success="right">(em minutos)</span>
+                        </div>
+                        <div class="input-field inline">
+                            <button type="submit" onclick="start()" class="btn-floating waves-effect waves-light cyan accent-4 play"><i class="material-icons lime-text accent-2">play_arrow</i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <section class="valign-wrapper center-align timer-content">
+                <span class="timer">00:00</span>
             </section>
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         <script src="./js/script.js"></script>
-        <script>
-            document.addEventListener( "DOMContentLoaded" , function( e ) {
-                init();
-            } );
-        </script>
     </body>
 </html>
