@@ -32,7 +32,7 @@ function beep(w) {
 }
 
 function changeTime(m, s) {
-    let ms = (m < 10) ? "0" + m : (s === 60) ? "01" : m,
+    let ms = (m < 10) ? (s === 60) ? "01" : "0" + m : m,
         ss = (s < 10) ? "0" + s : (s === 60) ? "00" : s;
     x.innerHTML = ms + ":" + ss;
 }
