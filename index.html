@@ -53,7 +53,7 @@
                                 <div class="switch">
                                     <label>
                                         Regressivo
-                                        <input type="checkbox">
+                                        <input type="checkbox" name="tipo">
                                         <span class="lever"></span>
                                         Progressivo
                                     </label>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="input-field inline">
                             <button type="submit" onclick="start()" class="btn-floating waves-effect waves-light green play"><i class="material-icons">play_arrow</i></button>
-                            <button type="button" onclick="resetTimer(t)" class="btn-floating waves-effect waves-light red stop" disabled><i class="material-icons">stop</i></button>
+                            <button type="button" onclick="resetTimer(t)" class="btn-floating waves-effect waves-light red stop" disabled><i class="material-icons">replay</i></button>
                             <button type="button" onclick="pause(t)" class="btn-floating waves-effect waves-light blue pause" disabled><i class="material-icons">pause</i></button>
                             <button type="button" onclick="full(false)" class="btn-floating waves-effect waves-light"><i class="material-icons">fullscreen</i></button>
                         </div>

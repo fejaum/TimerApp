@@ -13,19 +13,28 @@ let m = 0,
     d = document.querySelector(".stop"),
     j = document.querySelector(".pause"),
     o = document.querySelector("main"),
-    k = false;
+    n = document.querySelector("input[name='tipo']"),
+    k = false,
+    v = y.value;
 
 function start() {
-    let v = y.value;
+    v = y.value;
     resetTimer( t );
     a.disabled = true;
     d.disabled = false;
     j.disabled = false;
-    if (v >= 1 && v <= 60) {
+    n.disabled = true;
+    if ( v >= 1 && v <= 60 ) {
         beep();
-        changeTime(v, 0);
-        m = v - 1;
-        s = 60;
+        if ( n.checked )  {
+            changeTime( 0, 0 );
+            m = 0;
+            s = 0;
+        } else {
+            changeTime( v, 0 );
+            m = v - 1;
+            s = 60;
+        }
         t = setInterval( function() {
             timer();
         }, 1000 );
@@ -52,26 +61,47 @@ function resetTimer( t ) {
     a.disabled = false;
     d.disabled = true;
     j.disabled = true;
+    n.disabled = false;
     clearInterval( t );
+    k = false;
     x.innerHTML = "00:00";
 }
 
 function timer() {
     if ( !k ) {
-        if (s <= 0 && m <= 0) {
-            resetTimer( t );
-        }
-        else {
-            s--;
-            if ( s <= 3 && s > 0 && m == 0 )
-                beep();
-            if ( s <= 0 && m == 0 )
+        if ( n.checked ) {
+            if (s == 0 && m == v) {
                 beep( true );
-            if ( s === 0 && m !== 0 ) {
-                s = 60;
-                m--;
+                resetTimer( t );
             }
-            changeTime(m, s);
+            else {
+                s++;
+                if ( s >= 57 && s <= 59 && m == (v - 1) )
+                    beep();
+                if ( s === 60 && m !== v ) {
+                    s = 0;
+                    m++;
+                }
+                if (s == 0 && m == v)
+                    beep( true );
+                changeTime(m, s);
+            }
+        } else {
+            if (s <= 0 && m <= 0) {
+                resetTimer( t );
+            }
+            else {
+                s--;
+                if ( s <= 3 && s > 0 && m == 0 )
+                    beep();
+                if ( s <= 0 && m == 0 )
+                    beep( true );
+                if ( s === 0 && m !== 0 ) {
+                    s = 60;
+                    m--;
+                }
+                changeTime(m, s);
+            }
         }
     }
 }
@@ -84,7 +114,7 @@ function pause() {
         j.disabled = false;
     } else {
         a.disabled = true;
-        d.disabled = true;
+        d.disabled = false;
         j.disabled = false;
         k = true;
     }
