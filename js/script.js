@@ -4,11 +4,15 @@ let m = 1,
     p = document.querySelector(".play"),
     x = document.querySelector(".timer"),
     y = document.querySelector("#tempo"),
-    b = document.querySelector("#audio");
+    b = document.querySelector(".beep"),
+    f = document.querySelector(".beep-final"),
+    h = document.querySelector("header"),
+    g = document.querySelector("form"),
+    r = document.querySelector(".fullscreen-exit");
 
 function start() {
     let v = y.value;
-    reset( t );
+    resetTimer( t );
     if (v >= 1 && v <= 60) {
         beep();
         changeTime(v, 0);
@@ -20,32 +24,55 @@ function start() {
     }
 }
 
-function beep() {
-    b.play();
+function beep(w) {
+    if (w)
+        f.play();
+    else 
+        b.play();
 }
 
 function changeTime(m, s) {
-    let ms = (m < 10) ? "0" + m : m,
-        ss = (s < 10) ? "0" + s : s;
+    let ms = (m < 10) ? "0" + m : (s === 60) ? "01" : m,
+        ss = (s < 10) ? "0" + s : (s === 60) ? "00" : s;
     x.innerHTML = ms + ":" + ss;
 }
 
-function reset( t ) {
+function resetTimer( t ) {
     clearInterval( t );
     x.innerHTML = "00:00";
 }
 
 function timer() {
-    if (s <= 3)
-        beep();
-    if (s <= 0 && m <= 0)
-        reset( t );
+    if (s <= 0 && m <= 0) {
+        resetTimer( t );
+    }
     else {
         s--;
+        if ( s <= 3 && s > 0 && m == 0 )
+            beep();
+        if ( s <= 0 && m == 0 )
+            beep( true );
         if ( s === 0 && m !== 0 ) {
             s = 60;
             m--;
         }
         changeTime(m, s);
     }	
+}
+
+function pause() {
+
+}
+
+function full( show ) {
+    if ( show ) {
+        h.style.display = "block";
+        g.style.display = "block";
+        r.style.display = "none";
+
+    } else {
+        h.style.display = "none";
+        g.style.display = "none";
+        r.style.display = "block";
+    }
 }
