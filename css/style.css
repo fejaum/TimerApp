@@ -2,7 +2,7 @@ body {
     font-family: monospace;
 }
 
-main.container {
+main {
     padding-top: 2rem;
 }
 
@@ -13,6 +13,13 @@ main.container {
 .timer-content .timer {
     font-size: 8rem;
     margin: 0 auto;
+}
+
+main.full .timer-content .timer {
+    position: absolute;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .fullscreen-exit {

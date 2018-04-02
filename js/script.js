@@ -1,5 +1,5 @@
-let m = 1,
-    s = 0,
+let m = 0,
+    s = 3,
     t,
     p = document.querySelector(".play"),
     x = document.querySelector(".timer"),
@@ -12,6 +12,7 @@ let m = 1,
     a = document.querySelector(".play"),
     d = document.querySelector(".stop"),
     j = document.querySelector(".pause"),
+    o = document.querySelector("main"),
     k = false;
 
 function start() {
@@ -94,10 +95,12 @@ function full( show ) {
         h.style.display = "block";
         g.style.display = "block";
         r.style.display = "none";
+        o.classList.remove('full');
 
     } else {
         h.style.display = "none";
         g.style.display = "none";
         r.style.display = "block";
+        o.classList.add('full');
     }
 }
