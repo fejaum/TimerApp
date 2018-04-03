@@ -120,8 +120,8 @@ function pause() {
     }
 }
 
-function full( show ) {
-    if ( show ) {
+function full( sh ) {
+    if ( sh ) {
         show(h);
         show(g);
         hide(r);
