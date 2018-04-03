@@ -20,10 +20,10 @@ let m = 0,
 function start() {
     v = y.value;
     resetTimer( t );
-    a.disabled = true;
-    d.disabled = false;
-    j.disabled = false;
-    n.disabled = true;
+    disable(a);
+    disable(n);
+    enable(d);
+    enable(j);
     if ( v >= 1 && v <= 60 ) {
         beep();
         if ( n.checked )  {
@@ -58,10 +58,10 @@ function changeTime(m, s) {
 }
 
 function resetTimer( t ) {
-    a.disabled = false;
-    d.disabled = true;
-    j.disabled = true;
-    n.disabled = false;
+    enable(a);
+    enable(n);
+    disable(d);
+    disable(j);
     clearInterval( t );
     k = false;
     x.innerHTML = "00:00";
@@ -109,28 +109,44 @@ function timer() {
 function pause() {
     if ( k ) {
         k = false;
-        a.disabled = true;
-        d.disabled = false;
-        j.disabled = false;
+        disable(a);
+        enable(d);
+        enable(j);
     } else {
-        a.disabled = true;
-        d.disabled = false;
-        j.disabled = false;
+        enable(a);
+        disable(d);
+        disable(j);
         k = true;
     }
 }
 
 function full( show ) {
     if ( show ) {
-        h.style.display = "block";
-        g.style.display = "block";
-        r.style.display = "none";
+        show(h);
+        show(g);
+        hide(r);
         o.classList.remove('full');
 
     } else {
-        h.style.display = "none";
-        g.style.display = "none";
-        r.style.display = "block";
+        hide(h);
+        hide(g);
+        show(r);
         o.classList.add('full');
     }
+}
+
+function show( elem ) {
+    elem.style.display = "block";
+}
+
+function hide( elem ) {
+    elem.style.display = "none";
+}
+
+function disable ( elem ) {
+    elem.disabled = true;
+}
+
+function enable ( elem ) {
+    elem.disabled = false;
 }
