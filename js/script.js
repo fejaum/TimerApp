@@ -8,6 +8,7 @@ let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo ) {
 let min             = 0,
     seg             = 3,
     inputTempo      = document.querySelector("#tempo"),
+    inputRodadas    = document.querySelector("#rodadas"),
     botaoPlay       = document.querySelector(".play"),
     botaoStop       = document.querySelector(".stop"),
     botaoPause      = document.querySelector(".pause"),
@@ -138,12 +139,18 @@ function proximo() {
 }
 
 function init() {
+
     cronometros = [];
     cronometro = 0;
+
     let CountInicial = new Cronometro(0, 4, 1, false);
     cronometros.push(CountInicial);
-    let CronometroInput = new Cronometro(inputTempo.value, 0, inputTempo.value, botaoTipo.checked);
-    cronometros.push(CronometroInput);
+
+    for ( let i = 0; i < parseInt(inputRodadas.value); i++ ) {    
+        let CronometroInput = new Cronometro(inputTempo.value, 0, inputTempo.value, botaoTipo.checked);
+        cronometros.push(CronometroInput);
+    }
+    
     start();
 }
 
