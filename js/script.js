@@ -1,137 +1,164 @@
-let m = 0,
-    s = 3,
-    t,
-    p = document.querySelector(".play"),
-    x = document.querySelector(".timer"),
-    y = document.querySelector("#tempo"),
-    b = document.querySelector(".beep"),
-    f = document.querySelector(".beep-final"),
-    h = document.querySelector("header"),
-    g = document.querySelector("form"),
-    r = document.querySelector(".fullscreen-exit"),
-    a = document.querySelector(".play"),
-    d = document.querySelector(".stop"),
-    j = document.querySelector(".pause"),
-    o = document.querySelector("main"),
-    n = document.querySelector("input[name='tipo']"),
-    k = false,
-    v = y.value;
+let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo ) {
+    this.tempoMin       = tempoMin;
+    this.tempoSeg       = tempoSeg;
+    this.tempoAtual     = tempoAtual;
+    this.progressivo    = progressivo;
+}
+
+let min             = 0,
+    seg             = 3,
+    inputTempo      = document.querySelector("#tempo"),
+    botaoPlay       = document.querySelector(".play"),
+    botaoStop       = document.querySelector(".stop"),
+    botaoPause      = document.querySelector(".pause"),
+    botaoTipo       = document.querySelector("input[name='tipo']"),
+    spanTimer       = document.querySelector(".timer"),
+    somBeep         = document.querySelector(".beep"),
+    somBeepFinal    = document.querySelector(".beep-final"),
+    exit            = document.querySelector(".fullscreen-exit"),
+    header          = document.querySelector("header"),
+    form            = document.querySelector("form"),
+    main            = document.querySelector("main"),
+    pause           = false,
+    tempo,
+    tipoProgressivo,
+    cronometro = 0,
+    cronometros = [];
 
 function start() {
-    v = y.value;
-    resetTimer( t );
-    disable(a);
-    disable(n);
-    enable(d);
-    enable(j);
-    if ( v >= 1 && v <= 60 ) {
-        beep();
-        if ( n.checked )  {
-            changeTime( 0, 0 );
-            m = 0;
-            s = 0;
+    resetTimer( tempo );
+    disable( botaoPlay );
+    disable( botaoTipo );
+    enable( botaoPause );
+    enable( botaoStop );
+    if ( cronometros[cronometro].tempoAtual >= 1 && cronometros[cronometro].tempoAtual <= 60 ) {
+        if (cronometro === 0) {   
+            min = cronometros[0].tempoMin;
+            seg = cronometros[0].tempoSeg;  
+            tempo = setInterval( function() {
+                timer();
+            }, 1000 );
         } else {
-            changeTime( v, 0 );
-            m = v - 1;
-            s = 60;
+            if ( cronometros[cronometro].progressivo )  {
+                changeTime( 0, 0 );
+                min = 0;
+                seg = 0;
+            } else {
+                changeTime( cronometros[cronometro].tempoAtual, 0 );
+                min = cronometros[cronometro].tempoAtual - 1;
+                seg = 60;
+            }
+            tempo = setInterval( function() {
+                timer();
+            }, 1000 );
         }
-        t = setInterval( function() {
-            timer();
-        }, 1000 );
+        
     }
 }
 
-function beep(w) {
-    if (w)
-        f.play();
+function beep( final ) {
+    if ( final )
+        somBeepFinal.play();
     else 
-        b.play();
+        somBeep.play();
 }
 
-function changeTime(m, s) {
-    let ms,
-        ss;
-    ms = (s === 60) ? (m + 1) : m;
-    ms = (ms < 10) ? "0" + ms : ms;
-    ss = (s < 10) ? "0" + s : (s === 60) ? "00" : s;
-    x.innerHTML = ms + ":" + ss;
+function changeTime(changeMin, changeSeg) {
+    let minShow,
+        segShow;
+    minShow = (changeSeg === 60) ? (changeMin + 1) : changeMin;
+    minShow = (minShow < 10) ? "0" + minShow : minShow;
+    segShow = (changeSeg < 10) ? "0" + changeSeg : (changeSeg === 60) ? "00" : changeSeg;
+    spanTimer.innerHTML = minShow + ":" + segShow;
 }
 
-function resetTimer( t ) {
-    enable(a);
-    enable(n);
-    disable(d);
-    disable(j);
-    clearInterval( t );
-    k = false;
-    x.innerHTML = "00:00";
+function resetTimer( resetTempo ) {
+    enable( botaoPlay );
+    enable( botaoTipo );
+    disable( botaoStop );
+    disable( botaoPause );
+    clearInterval( tempo );
+    pause = false;
+    spanTimer.innerHTML = "00:00";
+    if (cronometro >= cronometros.length)
+        cronometro = 0;
 }
 
 function timer() {
-    if ( !k ) {
-        if ( n.checked ) {
-            if (s == 0 && m == v) {
+    if ( !pause ) {
+        if ( cronometros[cronometro].progressivo ) {
+            if (seg == 0 && min == cronometros[cronometro].tempoAtual) {
                 beep( true );
-                resetTimer( t );
+                proximo();
             }
             else {
-                s++;
-                if ( s >= 57 && s <= 59 && m == (v - 1) )
+                seg++;
+                if ( seg >= 57 && seg <= 59 && min == (cronometros[cronometro].tempoAtual - 1) )
                     beep();
-                if ( s === 60 && m !== v ) {
-                    s = 0;
-                    m++;
+                if ( seg === 60 && min !== cronometros[cronometro].tempoAtual ) {
+                    seg = 0;
+                    min++;
                 }
-                if (s == 0 && m == v)
+                if (seg == 0 && min == cronometros[cronometro].tempoAtual)
                     beep( true );
-                changeTime(m, s);
+                changeTime(min, seg);
             }
         } else {
-            if (s <= 0 && m <= 0) {
-                resetTimer( t );
+            if (seg <= 0 && min <= 0) {
+                proximo();
             }
             else {
-                s--;
-                if ( s <= 3 && s > 0 && m == 0 )
+                seg--;
+                if ( seg <= 3 && seg > 0 && min == 0 )
                     beep();
-                if ( s <= 0 && m == 0 )
+                if ( seg <= 0 && min == 0 )
                     beep( true );
-                if ( s === 0 && m !== 0 ) {
-                    s = 60;
-                    m--;
+                if ( seg === 0 && min !== 0 ) {
+                    seg = 60;
+                    min--;
                 }
-                changeTime(m, s);
+                changeTime(min, seg);
             }
         }
     }
 }
 
-function pause() {
-    if ( k ) {
-        k = false;
-        disable(a);
-        enable(d);
-        enable(j);
-    } else {
-        enable(a);
-        disable(d);
-        disable(j);
-        k = true;
-    }
+function pausar() {
+    if ( pause )
+        pause = false;
+    else
+        pause = true;
 }
 
-function full( sh ) {
-    if ( sh ) {
-        show(h);
-        show(g);
-        hide(r);
-        o.classList.remove('full');
+function proximo() {
+    resetTimer( tempo );
+    cronometro++;
+    if (cronometro < cronometros.length)
+        start();
+}
+
+function init() {
+    cronometros = [];
+    cronometro = 0;
+    let CountInicial = new Cronometro(0, 4, 1, false);
+    cronometros.push(CountInicial);
+    let CronometroInput = new Cronometro(inputTempo.value, 0, inputTempo.value, botaoTipo.checked);
+    cronometros.push(CronometroInput);
+    start();
+}
+
+function full( full ) {
+    if ( full ) {
+        show( header );
+        show( form );
+        hide( exit );
+        main.classList.remove('full');
 
     } else {
-        hide(h);
-        hide(g);
-        show(r);
-        o.classList.add('full');
+        hide( header );
+        hide( form );
+        show( exit );
+        main.classList.add('full');
     }
 }
 
