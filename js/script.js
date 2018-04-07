@@ -20,6 +20,7 @@ let min                     = 0,
     botaoPlay               = document.querySelector(".play"),
     botaoStop               = document.querySelector(".stop"),
     botaoPause              = document.querySelector(".pause"),
+    botaoFull               = document.querySelector(".full"),
     botaoTipo               = document.querySelector("input[name='tipo']"),
     spanTimer               = document.querySelector(".timer"),
     somBeep                 = document.querySelector(".beep"),
@@ -27,9 +28,10 @@ let min                     = 0,
     exit                    = document.querySelector(".fullscreen-exit"),
     spanTipo                = document.querySelector("span.tipo"),
     header                  = document.querySelector("header"),
-    form                    = document.querySelector("form"),
+    form                    = document.querySelector(".botoes"),
     main                    = document.querySelector("main"),
     pause                   = false,
+    isFull                  = false,
     cronometro              = 0,
     cronometros             = [],
     tipoCronometro          = "cronometro",
@@ -76,6 +78,8 @@ function mudarTipo( tipo ) {
             main.className = "";
             main.classList.add("yellow");
             main.classList.add("lighten-5");
+            if ( full ) 
+                main.classList.add("full");
         break;
 
         case "exercicio":
@@ -83,6 +87,8 @@ function mudarTipo( tipo ) {
             main.className = "";
             main.classList.add("green");
             main.classList.add("lighten-5");
+            if ( full ) 
+                main.classList.add("full");
         break;
 
         case "descanso":
@@ -90,6 +96,8 @@ function mudarTipo( tipo ) {
             main.className = "";
             main.classList.add("red");
             main.classList.add("lighten-5");
+            if ( full ) 
+                main.classList.add("full");
         break;
 
         case "cooldown":
@@ -97,11 +105,22 @@ function mudarTipo( tipo ) {
             main.className = "";
             main.classList.add("blue");
             main.classList.add("lighten-5");
+            if ( full ) 
+                main.classList.add("full");
+        break;
+
+        case "cronometro":
+            spanTipo.innerHTML = "Cronômetro";
+            main.className = "";
+            if ( full ) 
+                main.classList.add("full");
         break;
 
         default :
             spanTipo.innerHTML = "3, 2, 1!";
             main.className = "";
+            if ( full ) 
+                main.classList.add("full");
         break;
     }
 }
@@ -155,17 +174,17 @@ function timer() {
             if (seg <= 0 && min <= 0) {
                 proximo();
             }
-            else {
+            else {                
+                if ( seg === 0 && min !== 0 ) {
+                    seg = 60;
+                    min--;
+                }
                 seg--;
                 segs--;
                 if ( seg <= 3 && seg > 0 && min == 0 )
                     beep();
                 if ( seg <= 0 && min == 0 )
                     beep( true );
-                if ( seg === 0 && min !== 0 ) {
-                    seg = 60;
-                    min--;
-                }
                 changeTime(min, seg);
             }
         }
@@ -202,10 +221,10 @@ function init() {
     if ( tipoCronometro == "cronometro" ) {
 
         for ( let i = 0; i < parseInt( inputRodadasCro.value ); i++ ) {
-            valorInput = inputTempoCro.value;
+            valorInput = parseInt( inputTempoCro.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked);
+            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro");
             cronometros.push( CronometroInput );
         }
 
@@ -213,7 +232,7 @@ function init() {
 
         if ( inputAquecimento.checked ) {
             
-            valorInput = inputAquecimentoSerie.value;
+            valorInput = parseInt( inputAquecimentoSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "aquecimento");
@@ -224,14 +243,14 @@ function init() {
 
         for ( let i = 0; i < parseInt( inputRodadasCro.value ); i++ ) {
 
-            valorInput = inputExercicioSerie.value;
+            valorInput = parseInt( inputExercicioSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio");
 
             cronometros.push( CronometroInput );
             
-            valorInput = inputDescansoSerie.value;
+            valorInput = parseInt( inputDescansoSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso");
@@ -241,7 +260,7 @@ function init() {
 
         if ( inputCooldown.checked ) {
 
-            valorInput = inputCooldownSerie.value;
+            valorInput = parseInt( inputCooldownSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cooldown");
@@ -254,17 +273,20 @@ function init() {
     start();
 }
 
-function full( full ) {
-    if ( full ) {
+function full( x ) {
+    isFull = x;
+    if ( isFull ) {
         show( header );
         show( form );
         hide( exit );
+        enable ( botaoFull );
         main.classList.remove('full');
 
     } else {
         hide( header );
         hide( form );
         show( exit );
+        disable ( botaoFull );
         main.classList.add('full');
     }
 }
