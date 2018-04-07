@@ -143,7 +143,7 @@ function timer() {
             } else {
                 seg++;
                 segs++;
-                if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg <= cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
+                if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
                     beep();
                 if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
                     seg = 0;
