@@ -33,45 +33,147 @@
         <header>
             <nav class="cyan accent-4">
                 <div class="nav-wrapper container">
-                    <a href="#!" class="brand-logo lime-text accent-2"><i class="large material-icons">timer</i></a>
+                    <a href="#" data-target="mobile" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">settings</i></a>
+                    <a href="#" data-target="mobile" class="sidenav-trigger show-on-medium-and-up">Configurações</a>
                 </div>
             </nav>
         </header>
-        <audio class="beep" src="./mp3/beep.mp3" autostart="false" ></audio>
-        <audio class="beep-final" src="./mp3/beep-final.mp3" autostart="false" ></audio>
-        <main>
-            <form action="" method="get" onsubmit="return false;">
+        <div class="sidenav" id="mobile">
+            <form action="" method="get" onsubmit="return false;">                
+                <div class="card-panel z-depth-0">
+                    <div class="row">
+                        <div class="col s12">
+                            <p class="flow-text">Configurações</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col s12 center-align">
-                        <div class="input-field inline">
-                            <input id="tempo" type="number" value="2" min="1" max="60" />
-                            <label for="tempo">Tempo</label>
-                        </div>
-                        <div class="input-field inline">
-                            <input id="rodadas" type="number" value="1" min="1" max="60" />
-                            <label for="rodadas">Rodadas</label>
-                        </div>
-                        <div class="input-field inline">
-                            <p>
-                                <div class="switch">
-                                    <label>
-                                        Regressivo
-                                        <input type="checkbox" name="tipo">
-                                        <span class="lever"></span>
-                                        Progressivo
-                                    </label>
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s6"><a href="#cronometro">Cronômetro</a></li>
+                            <li class="tab col s6"><a href="#serie">Série</a></li>
+                        </ul>
+                    </div>
+                    <div id="cronometro" class="col s12">
+                        <div class="card-panel z-depth-0">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <input id="tempo_cronometro" type="number" value="120" min="1" max="3600" />
+                                        <label for="tempo">Tempo</label>
+                                        <span class="helper-text" data-error="wrong" data-success="right">Em segundos</span>          
+                                    </div>
                                 </div>
-                            </p>
+                            </div>
                         </div>
-                        <div class="input-field inline">
-                            <button type="submit" onclick="init()" class="btn-floating waves-effect waves-light green play"><i class="material-icons">play_arrow</i></button>
-                            <button type="button" onclick="resetTimer(tempo)" class="btn-floating waves-effect waves-light red stop" disabled><i class="material-icons">replay</i></button>
-                            <button type="button" onclick="pausar()" class="btn-floating waves-effect waves-light blue pause" disabled><i class="material-icons">pause</i></button>
-                            <button type="button" onclick="full(false)" class="btn-floating waves-effect waves-light"><i class="material-icons">fullscreen</i></button>
+                    </div>
+                    <div id="serie" class="col s12">
+                        <div class="card-panel yellow lighten-5 z-depth-0">
+                            <div class="row">
+                                <div class="col s12">
+                                    <p>
+                                        <label>
+                                            <input type="checkbox" name="aquecimento" class="filled-in" checked="checked" />
+                                            <span>Aquecimento</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <input id="aquecimento_tempo" type="number" value="120" min="1" max="3600" />
+                                        <label for="aquecimento_tempo">Tempo de Aquecimento</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-panel green lighten-5 z-depth-0">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <input id="exercicio_tempo" type="number" value="120" min="1" max="3600" />
+                                        <label for="exercicio_tempo">Tempo de Exercício</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <input id="descanso_tempo" type="number" value="120" min="1" max="3600" />
+                                        <label for="descanso_tempo">Tempo de Descanso</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-panel blue lighten-5 z-depth-0">
+                            <div class="row">
+                                <div class="col s12">
+                                    <p>
+                                        <label>
+                                            <input type="checkbox" name="cooldown" class="filled-in" checked="checked" />
+                                            <span>Tempo entre Séries</span>
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="input-field">
+                                        <input id="cooldown_tempo" type="number" value="120" min="1" max="3600" />
+                                        <label for="cooldown_tempo">Tempo entre Séries</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-panel z-depth-0">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field">
+                                <input id="rodadas_cronometro" type="number" value="1" min="1" max="60" />
+                                <label for="rodadas">Rodadas</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field center-align">
+                                <p>
+                                    <div class="switch">
+                                        <label>
+                                            Regressivo
+                                            <input type="checkbox" name="tipo">
+                                            <span class="lever"></span>
+                                            Progressivo
+                                        </label>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
+        </div>
+        <audio class="beep" src="./mp3/beep.mp3" autostart="false" ></audio>
+        <audio class="beep-final" src="./mp3/beep-final.mp3" autostart="false" ></audio>
+        <main>
+            <div class="row">
+                <div class="col s12 center-align">
+                    <span class="tipo"></span>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col s12 center-align">
+                    <div class="input-field inline">
+                        <button type="submit" onclick="init()" class="btn-floating waves-effect waves-light green play"><i class="material-icons">play_arrow</i></button>
+                        <button type="button" onclick="resetTimer(tempo)" class="btn-floating waves-effect waves-light red stop" disabled><i class="material-icons">replay</i></button>
+                        <button type="button" onclick="pausar()" class="btn-floating waves-effect waves-light blue pause" disabled><i class="material-icons">pause</i></button>
+                        <button type="button" onclick="full(false)" class="btn-floating waves-effect waves-light"><i class="material-icons">fullscreen</i></button>
+                    </div>
+                </div>
+            </div>
             <section class="valign-wrapper center-align timer-content">
                 <span class="timer">00:00</span>
             </section>
