@@ -192,10 +192,7 @@ function timer() {
 }
 
 function pausar() {
-    if ( pause )
-        pause = false;
-    else
-        pause = true;
+    pause = !pause;
 }
 
 function proximo() {
