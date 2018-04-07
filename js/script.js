@@ -84,7 +84,7 @@ function mudarTipo( tipo ) {
         case "aquecimento":
             spanTipo.innerHTML = "Aquecimento";
             main.className = "";
-            main.classList.add("yellow");
+            main.classList.add("grey");
             main.classList.add("lighten-5");
             if ( full ) 
                 main.classList.add("full");
@@ -93,8 +93,7 @@ function mudarTipo( tipo ) {
         case "exercicio":
             spanTipo.innerHTML = "Exercício";
             main.className = "";
-            main.classList.add("green");
-            main.classList.add("lighten-5");
+            main.classList.add("gruppe-amarelo");
             if ( full ) 
                 main.classList.add("full");
         break;
@@ -102,8 +101,6 @@ function mudarTipo( tipo ) {
         case "descanso":
             spanTipo.innerHTML = "Descanso";
             main.className = "";
-            main.classList.add("red");
-            main.classList.add("lighten-5");
             if ( full ) 
                 main.classList.add("full");
         break;
@@ -111,8 +108,8 @@ function mudarTipo( tipo ) {
         case "cooldown":
             spanTipo.innerHTML = "Cooldown";
             main.className = "";
-            main.classList.add("blue");
-            main.classList.add("lighten-5");
+            main.classList.add("gray");
+            main.classList.add("lighten-2");
             if ( full ) 
                 main.classList.add("full");
         break;
@@ -120,6 +117,7 @@ function mudarTipo( tipo ) {
         case "cronometro":
             spanTipo.innerHTML = "Cronômetro";
             main.className = "";
+            main.classList.add("gruppe");
             if ( full ) 
                 main.classList.add("full");
         break;

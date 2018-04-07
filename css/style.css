@@ -1,5 +1,42 @@
+@font-face {
+    font-family: 'museo_sans700';
+    src: url('../fonts/museosans_700-webfont.woff2') format('woff2'),
+         url('../fonts/museosans_700-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans500';
+    src: url('../fonts/museosans_500-webfont.woff2') format('woff2'),
+         url('../fonts/museosans_500-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans100';
+    src: url('../fonts/museosans-100-webfont.woff2') format('woff2'),
+         url('../fonts/museosans-100-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo_sans300';
+    src: url('../fonts/museosans-300-webfont.woff2') format('woff2'),
+         url('../fonts/museosans-300-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
-    font-family: monospace;
+    font-family: 'museo_sans100', monospace;
+    font-size: 14px;
 }
 
 main {
@@ -14,6 +51,7 @@ main {
 .timer-content .timer {
     font-size: 8rem;
     margin: 0 auto;
+    font-family: 'museo_sans300';
 }
 
 main.full .timer-content .timer {
@@ -37,6 +75,14 @@ main.full .timer-content .timer {
 
 .row {
     margin-bottom: 10px;
+}
+
+.gruppe-amarelo {
+    background-color: rgb(255, 237, 0)!important;
+}
+
+.gruppe-azul {
+    background-color: rgb(56, 186, 206)!important;
 }
 
 @media screen and (min-width: 768px) {
