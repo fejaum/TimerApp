@@ -42,6 +42,14 @@ function start() {
     resetTimer( tempo );
     disable( botaoPlay );
     disable( botaoTipo );
+    disable( inputAquecimentoSerie );
+    disable( inputAquecimento );
+    disable( inputCooldown );
+    disable( inputCooldownSerie );
+    disable( inputExercicioSerie );
+    disable( inputDescansoSerie );
+    disable( inputRodadasCro );
+    disable( inputTempoCro );
     enable( botaoPause );
     enable( botaoStop );
     if (cronometro === 0) {   
@@ -144,8 +152,16 @@ function changeTime(changeMin, changeSeg) {
 function resetTimer( resetTempo ) {
     enable( botaoPlay );
     enable( botaoTipo );
-    disable( botaoStop );
-    disable( botaoPause );
+    enable( inputAquecimentoSerie );
+    enable( inputAquecimento );
+    enable( inputCooldown );
+    enable( inputCooldownSerie );
+    enable( inputExercicioSerie );
+    enable( inputDescansoSerie );
+    enable( inputRodadasCro );
+    enable( inputTempoCro );
+    enable( botaoStop );
+    enable( botaoPause );
     clearInterval( tempo );
     pause = false;
     spanTimer.innerHTML = "00:00";
