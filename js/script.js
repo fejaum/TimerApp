@@ -132,10 +132,21 @@ function mudarTipo( tipo ) {
 }
 
 function beep( final ) {
-    if ( final )
-        somBeepFinal.play();
-    else 
+    if ( final ) {
+        var teste = somBeepFinal.play();
+        if (teste !== undefined) {
+            teste.then(function() {
+                console.log( "FOI!" );
+            }).catch(function(error) {
+                console.log( "NÃO FOI!" );
+            });
+        }
+        console.log("beeeeeeeeeeeeep");
+    }
+    else {
         somBeep.play();
+        console.log("beep");
+    }
 }
 
 function changeTime(changeMin, changeSeg) {
@@ -170,20 +181,19 @@ function resetTimer( resetTempo ) {
 function timer() {
     if ( !pause ) {
         if ( cronometros[cronometro].progressivo ) {
+            seg++;
+            segs++;
+            if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
+                beep();
+            if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
+                seg = 0;
+                min++;
+            }
             if (segs == cronometros[cronometro].tempoAtual) {
                 beep( true );
                 proximo();
-            } else {
-                seg++;
-                segs++;
-                if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
-                    beep();
-                if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
-                    seg = 0;
-                    min++;
-                }
-                changeTime(min, seg);
             }
+            changeTime(min, seg);
         } else {
             if (seg <= 0 && min <= 0) {
                 proximo();
