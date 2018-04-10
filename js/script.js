@@ -38,7 +38,8 @@ let min                     = 0,
     cronometros             = [],
     tipoCronometro          = "cronometro",
     tempo,
-    tipoProgressivo;
+    tipoProgressivo,
+    qtdRodadas;
 
 function start() {
     resetTimer( tempo );
@@ -94,7 +95,7 @@ function mudarTipo( tipo, rodada ) {
         break;
 
         case "exercicio":
-            spanRodada.innerHTML = "Rodada: " + rodada;
+            spanRodada.innerHTML =  rodada + " / " + qtdRodadas;
             spanTipo.innerHTML = "Exercício";
             main.className = "";
             main.classList.add("gruppe-amarelo");
@@ -103,7 +104,7 @@ function mudarTipo( tipo, rodada ) {
         break;
 
         case "descanso":
-            spanRodada.innerHTML = "Rodada: " + rodada;
+            spanRodada.innerHTML =  rodada + " / " + qtdRodadas;
             spanTipo.innerHTML = "Descanso";
             main.className = "";
             if ( full ) 
@@ -121,7 +122,7 @@ function mudarTipo( tipo, rodada ) {
         break;
 
         case "cronometro":
-            spanRodada.innerHTML = "Rodada: " + rodada;
+            spanRodada.innerHTML =  rodada + " / " + qtdRodadas;
             spanTipo.innerHTML = "Cronômetro";
             main.className = "";
             main.classList.add("gruppe");
@@ -247,9 +248,11 @@ function init() {
         segundosInput,
         CronometroInput;
 
+    qtdRodadas = inputRodadasCro.value;
+
     if ( tipoCronometro == "cronometro" ) {
 
-        for ( let i = 1; i <= parseInt( inputRodadasCro.value ); i++ ) {
+        for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
             valorInput = parseInt( inputTempoCro.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
@@ -270,7 +273,7 @@ function init() {
 
         }
 
-        for ( let i = 1; i <= parseInt( inputRodadasCro.value ); i++ ) {
+        for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
 
             valorInput = parseInt( inputExercicioSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
