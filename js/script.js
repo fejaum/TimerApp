@@ -1,9 +1,10 @@
-let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo ) {
+let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, rodada ) {
     this.tempoMin       = tempoMin;
     this.tempoSeg       = tempoSeg;
     this.tempoAtual     = tempoAtual;
     this.progressivo    = progressivo;
-    this.tipo           = tipo
+    this.tipo           = tipo;
+    this.rodada         = rodada
 }
 
 let min                     = 0,
@@ -27,6 +28,7 @@ let min                     = 0,
     somBeepFinal            = document.querySelector(".beep-final"),
     exit                    = document.querySelector(".fullscreen-exit"),
     spanTipo                = document.querySelector("span.tipo"),
+    spanRodada              = document.querySelector("span.rodada_numero"),
     header                  = document.querySelector("header"),
     form                    = document.querySelector(".botoes"),
     main                    = document.querySelector("main"),
@@ -72,16 +74,17 @@ function start() {
             seg = cronometros[cronometro].tempoSeg;
             segs = cronometros[cronometro].tempoAtual;
         }
-        mudarTipo(cronometros[cronometro].tipo);
+        mudarTipo(cronometros[cronometro].tipo, cronometros[cronometro].rodada );
         tempo = setInterval( function() {
             timer();
         }, 1000 );
     }
 }
 
-function mudarTipo( tipo ) {
+function mudarTipo( tipo, rodada ) {
     switch (tipo) {
         case "aquecimento":
+            spanRodada.innerHTML = "";
             spanTipo.innerHTML = "Aquecimento";
             main.className = "";
             main.classList.add("grey");
@@ -91,6 +94,7 @@ function mudarTipo( tipo ) {
         break;
 
         case "exercicio":
+            spanRodada.innerHTML = "Rodada: " + rodada;
             spanTipo.innerHTML = "Exercício";
             main.className = "";
             main.classList.add("gruppe-amarelo");
@@ -99,6 +103,7 @@ function mudarTipo( tipo ) {
         break;
 
         case "descanso":
+            spanRodada.innerHTML = "Rodada: " + rodada;
             spanTipo.innerHTML = "Descanso";
             main.className = "";
             if ( full ) 
@@ -106,6 +111,7 @@ function mudarTipo( tipo ) {
         break;
 
         case "cooldown":
+            spanRodada.innerHTML = "";
             spanTipo.innerHTML = "Cooldown";
             main.className = "";
             main.classList.add("gray");
@@ -115,6 +121,7 @@ function mudarTipo( tipo ) {
         break;
 
         case "cronometro":
+            spanRodada.innerHTML = "Rodada: " + rodada;
             spanTipo.innerHTML = "Cronômetro";
             main.className = "";
             main.classList.add("gruppe");
@@ -123,6 +130,7 @@ function mudarTipo( tipo ) {
         break;
 
         default :
+            spanRodada.innerHTML = "";
             spanTipo.innerHTML = "3, 2, 1!";
             main.className = "";
             if ( full ) 
@@ -241,11 +249,11 @@ function init() {
 
     if ( tipoCronometro == "cronometro" ) {
 
-        for ( let i = 0; i < parseInt( inputRodadasCro.value ); i++ ) {
+        for ( let i = 1; i <= parseInt( inputRodadasCro.value ); i++ ) {
             valorInput = parseInt( inputTempoCro.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro");
+            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro", i);
             cronometros.push( CronometroInput );
         }
 
@@ -262,19 +270,19 @@ function init() {
 
         }
 
-        for ( let i = 0; i < parseInt( inputRodadasCro.value ); i++ ) {
+        for ( let i = 1; i <= parseInt( inputRodadasCro.value ); i++ ) {
 
             valorInput = parseInt( inputExercicioSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio");
+            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
 
             cronometros.push( CronometroInput );
             
             valorInput = parseInt( inputDescansoSerie.value );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso");
+            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i);
 
             cronometros.push( CronometroInput );
         }

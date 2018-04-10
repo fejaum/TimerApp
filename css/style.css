@@ -41,7 +41,7 @@ body {
 
 main {
     padding-top: 2rem;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 195px);
 }
 
 .timer-content {
@@ -84,6 +84,16 @@ main.full .timer-content .timer {
 .gruppe-azul {
     background-color: rgb(56, 186, 206)!important;
 }
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
 
 @media screen and (min-width: 768px) {
     .timer-content .timer {
