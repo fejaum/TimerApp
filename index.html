@@ -19,7 +19,7 @@
         <title>TimerApp</title>
 
         <link type="text/css" rel="stylesheet" href="./css/reset.css">
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+        <link type="text/css" rel="stylesheet" href="./css/materialize.min.css">
         <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link type="text/css" rel="stylesheet" href="./css/style.css">
 
@@ -30,6 +30,7 @@
     </head>
     <body>
         <button type="button" onclick="full(true)" class="btn-floating waves-effect waves-light fullscreen-exit"><i class="material-icons">fullscreen_exit</i></button>
+        <button type="button" onclick="callClock()" class="btn-floating waves-effect waves-light orange clock-exit"><i class="material-icons">access_time</i></button>
         <header>
             <nav class="cyan accent-4">
                 <div class="nav-wrapper container valign-wrapper">
@@ -69,26 +70,6 @@
                         </div>
                     </div>
                     <div id="serie" class="col s12">
-                        <div class="card-panel grey lighten-5 z-depth-0">
-                            <div class="row">
-                                <div class="col s12">
-                                    <p>
-                                        <label>
-                                            <input type="checkbox" name="aquecimento" class="filled-in" checked="checked" />
-                                            <span>Aquecimento</span>
-                                        </label>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="input-field">
-                                        <input id="aquecimento_tempo" type="number" value="120" min="1" max="3600" />
-                                        <label for="aquecimento_tempo">Tempo de Aquecimento</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-panel gruppe-amarelo z-depth-0">
                             <div class="row">
                                 <div class="col s12">
@@ -173,6 +154,7 @@
                         <button type="submit" onclick="init()" class="btn-floating waves-effect waves-light green play"><i class="material-icons">play_arrow</i></button>
                         <button type="button" onclick="resetTimer(tempo)" class="btn-floating waves-effect waves-light red stop" disabled><i class="material-icons">replay</i></button>
                         <button type="button" onclick="pausar()" class="btn-floating waves-effect waves-light blue pause" disabled><i class="material-icons">pause</i></button>
+                        <button type="button" onclick="callClock()" class="btn-floating waves-effect waves-light orange clock"><i class="material-icons">access_time</i></button>
                         <button type="button" onclick="full(false)" class="btn-floating waves-effect waves-light full"><i class="material-icons">fullscreen</i></button>
                     </div>
                 </div>
@@ -188,7 +170,7 @@
                 </div>
             </div>
         </footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script src="./js/materialize.min.js"></script>
         <script src="./js/script.js"></script>
     </body>
 </html>

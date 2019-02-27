@@ -12,21 +12,21 @@ let min                     = 0,
     segs                    = 0,
     inputTempoCro           = document.querySelector("#tempo_cronometro"),
     inputRodadasCro         = document.querySelector("#rodadas_cronometro"),
-    inputAquecimentoSerie   = document.querySelector("#aquecimento_tempo"),
     inputExercicioSerie     = document.querySelector("#exercicio_tempo"),
     inputDescansoSerie      = document.querySelector("#descanso_tempo"),
     inputCooldownSerie      = document.querySelector("#cooldown_tempo"),
     inputCooldown           = document.querySelector("input[name='cooldown']"),
-    inputAquecimento        = document.querySelector("input[name='aquecimento']"),
     botaoPlay               = document.querySelector(".play"),
     botaoStop               = document.querySelector(".stop"),
     botaoPause              = document.querySelector(".pause"),
     botaoFull               = document.querySelector(".full"),
+    botaoClock              = document.querySelector(".clock"),
     botaoTipo               = document.querySelector("input[name='tipo']"),
     spanTimer               = document.querySelector(".timer"),
     somBeep                 = document.querySelector(".beep"),
     somBeepFinal            = document.querySelector(".beep-final"),
     exit                    = document.querySelector(".fullscreen-exit"),
+    clockExit               = document.querySelector(".clock-exit"),
     spanTipo                = document.querySelector("span.tipo"),
     spanRodada              = document.querySelector("span.rodada_numero"),
     header                  = document.querySelector("header"),
@@ -34,19 +34,19 @@ let min                     = 0,
     main                    = document.querySelector("main"),
     pause                   = false,
     isFull                  = false,
+    isClock                 = false,
     cronometro              = 0,
     cronometros             = [],
     tipoCronometro          = "cronometro",
     tempo,
+    clockTime,
     tipoProgressivo,
     qtdRodadas;
 
 function start() {
-    resetTimer( tempo );
+    resetTimer();
     disable( botaoPlay );
     disable( botaoTipo );
-    disable( inputAquecimentoSerie );
-    disable( inputAquecimento );
     disable( inputCooldown );
     disable( inputCooldownSerie );
     disable( inputExercicioSerie );
@@ -84,15 +84,6 @@ function start() {
 
 function mudarTipo( tipo, rodada ) {
     switch (tipo) {
-        case "aquecimento":
-            spanRodada.innerHTML = "";
-            spanTipo.innerHTML = "Aquecimento";
-            main.className = "";
-            main.classList.add("grey");
-            main.classList.add("lighten-5");
-            if ( full ) 
-                main.classList.add("full");
-        break;
 
         case "exercicio":
             spanRodada.innerHTML =  rodada + " / " + qtdRodadas;
@@ -167,19 +158,17 @@ function changeTime(changeMin, changeSeg) {
     spanTimer.innerHTML = minShow + ":" + segShow;
 }
 
-function resetTimer( resetTempo ) {
+function resetTimer() {
     enable( botaoPlay );
     enable( botaoTipo );
-    enable( inputAquecimentoSerie );
-    enable( inputAquecimento );
     enable( inputCooldown );
     enable( inputCooldownSerie );
     enable( inputExercicioSerie );
     enable( inputDescansoSerie );
     enable( inputRodadasCro );
     enable( inputTempoCro );
-    enable( botaoStop );
-    enable( botaoPause );
+    disable( botaoStop );
+    disable( botaoPause );
     clearInterval( tempo );
     pause = false;
     spanTimer.innerHTML = "00:00";
@@ -187,12 +176,45 @@ function resetTimer( resetTempo ) {
         cronometro = 0;
 }
 
+function clock() {
+
+    var time = new Date(),
+    
+    hours = time.getHours(),    
+    minutes = time.getMinutes(),  
+    seconds = time.getSeconds();
+    spanTimer.innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
+    
+    function harold(standIn) {
+        if (standIn < 10) {
+        standIn = '0' + standIn
+        }
+        return standIn;
+    }
+}
+    
+function callClock() {
+    if ( !isClock ) {
+        isClock = true;
+        full( false );
+        hide( exit );
+        show( clockExit );
+        clockTime = setInterval(clock, 0);
+    } else {
+        isClock = false;
+        hide( clockExit );
+        clearInterval( clockTime );
+        full( true );
+        resetTimer();
+    }
+}
+
 function timer() {
     if ( !pause ) {
         if ( cronometros[cronometro].progressivo ) {
             seg++;
             segs++;
-            if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
+            if ( seg >= (cronometros[cronometro].tempoSeg - 10) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
                 beep();
             if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
                 seg = 0;
@@ -214,7 +236,7 @@ function timer() {
                 }
                 seg--;
                 segs--;
-                if ( seg <= 3 && seg > 0 && min == 0 )
+                if ( seg <= 10 && seg > 0 && min == 0 )
                     beep();
                 if ( seg <= 0 && min == 0 )
                     beep( true );
@@ -229,7 +251,7 @@ function pausar() {
 }
 
 function proximo() {
-    resetTimer( tempo );
+    resetTimer();
     cronometro++;
     if (cronometro < cronometros.length)
         start();
@@ -261,17 +283,6 @@ function init() {
         }
 
     } else {
-
-        if ( inputAquecimento.checked ) {
-            
-            valorInput = parseInt( inputAquecimentoSerie.value );
-            minutosInput = Math.floor( valorInput / 60 );
-            segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "aquecimento");
-
-            cronometros.push( CronometroInput );
-
-        }
 
         for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
 
