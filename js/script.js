@@ -206,7 +206,7 @@ function timer() {
         if ( cronometros[cronometro].progressivo ) {
             seg++;
             segs++;
-            if ( seg >= (cronometros[cronometro].tempoSeg - 10) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
+            if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
                 beep();
             if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
                 seg = 0;
@@ -228,7 +228,7 @@ function timer() {
                 }
                 seg--;
                 segs--;
-                if ( seg <= 10 && seg > 0 && min == 0 )
+                if ( seg <= 3 && seg > 0 && min == 0 )
                     beep();
                 if ( seg <= 0 && min == 0 )
                     beep( true );
@@ -254,7 +254,7 @@ function init() {
     cronometros = [];
     cronometro = 0;
 
-    let CountInicial = new Cronometro(0, 4, 1, false);
+    let CountInicial = new Cronometro(0, 11, 1, false);
     cronometros.push( CountInicial );
 
     let valorInput,
