@@ -153,7 +153,7 @@ function changeTime(changeMin, changeSeg) {
     let minShow,
         segShow;
     minShow = (changeSeg === 60) ? (changeMin + 1) : changeMin;
-    minShow = (minShow < 10) ? "0" + minShow : minShow;
+    minShow = showZero( minShow );
     segShow = (changeSeg < 10) ? "0" + changeSeg : (changeSeg === 60) ? "00" : changeSeg;
     spanTimer.innerHTML = minShow + ":" + segShow;
 }
@@ -177,20 +177,12 @@ function resetTimer() {
 }
 
 function clock() {
+    const time = new Date();
+    spanTimer.innerHTML = showZero( time.getHours() ) + ":" + showZero( time.getMinutes() ) + ":" + showZero( time.getSeconds() );
+}
 
-    var time = new Date(),
-    
-    hours = time.getHours(),    
-    minutes = time.getMinutes(),  
-    seconds = time.getSeconds();
-    spanTimer.innerHTML = harold(hours) + ":" + harold(minutes) + ":" + harold(seconds);
-    
-    function harold(standIn) {
-        if (standIn < 10) {
-        standIn = '0' + standIn
-        }
-        return standIn;
-    }
+function showZero(s) {
+    return (s < 10) ? '0' + s : s;
 }
     
 function callClock() {
