@@ -81,9 +81,18 @@
                         <div class="card-panel gruppe-amarelo z-depth-0">
                             <div class="row">
                                 <div class="col s12">
+                                    <label>Tempo de Exercício</label>
+                                </div>
+                                <div class="col s6">
                                     <div class="input-field">
-                                        <input id="exercicio_tempo" type="number" value="120" min="1" max="3600" />
-                                        <label for="exercicio_tempo">Tempo de Exercício</label>
+                                        <input id="exercicio_minutos" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                        <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
+                                    </div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="input-field">
+                                        <input id="exercicio_segundos" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                        <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
                                     </div>
                                 </div>
                             </div>
@@ -91,14 +100,23 @@
                         <div class="card-panel z-depth-0">
                             <div class="row">
                                 <div class="col s12">
+                                    <label>Tempo de Descanso</label>
+                                </div>
+                                <div class="col s6">
                                     <div class="input-field">
-                                        <input id="descanso_tempo" type="number" value="120" min="1" max="3600" />
-                                        <label for="descanso_tempo">Tempo de Descanso</label>
+                                        <input id="descanso_minutos" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                        <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
+                                    </div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="input-field">
+                                        <input id="descanso_segundos" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                        <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-panel grey lighten-2 z-depth-0">
+                        <!-- <div class="card-panel grey lighten-2 z-depth-0">
                             <div class="row">
                                 <div class="col s12">
                                     <p>
@@ -117,7 +135,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="card-panel z-depth-0">

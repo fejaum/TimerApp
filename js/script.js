@@ -10,13 +10,15 @@ let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, r
 let min                     = 0,
     seg                     = 0,
     segs                    = 0,
-    inputSegundosCro        = document.querySelector("#segundos_cronometro"),
     inputMinutosCro         = document.querySelector("#minutos_cronometro"),
+    inputSegundosCro        = document.querySelector("#segundos_cronometro"),
     inputRodadasCro         = document.querySelector("#rodadas_cronometro"),
-    inputExercicioSerie     = document.querySelector("#exercicio_tempo"),
-    inputDescansoSerie      = document.querySelector("#descanso_tempo"),
-    inputCooldownSerie      = document.querySelector("#cooldown_tempo"),
-    inputCooldown           = document.querySelector("input[name='cooldown']"),
+    inputExerMinutosSerie   = document.querySelector("#exercicio_minutos"),
+    inputExerSegundosSerie  = document.querySelector("#exercicio_segundos"),
+    inputDescMinutosSerie   = document.querySelector("#descanso_minutos"),
+    inputDescSegundosSerie  = document.querySelector("#descanso_segundos"),
+    //inputCooldownSerie      = document.querySelector("#cooldown_tempo"),
+    //inputCooldown           = document.querySelector("input[name='cooldown']"),
     botaoPlay               = document.querySelector(".play"),
     botaoStop               = document.querySelector(".stop"),
     botaoPause              = document.querySelector(".pause"),
@@ -48,10 +50,12 @@ function start() {
     resetTimer();
     disable( botaoPlay );
     disable( botaoTipo );
-    disable( inputCooldown );
-    disable( inputCooldownSerie );
-    disable( inputExercicioSerie );
-    disable( inputDescansoSerie );
+    //disable( inputCooldown );
+    //disable( inputCooldownSerie );
+    disable( inputExerMinutosSerie );
+    disable( inputExerSegundosSerie );
+    disable( inputDescMinutosSerie );
+    disable( inputDescSegundosSerie );
     disable( inputRodadasCro );
     disable( inputSegundosCro );
     disable( inputMinutosCro );
@@ -163,10 +167,12 @@ function changeTime(changeMin, changeSeg) {
 function resetTimer() {
     enable( botaoPlay );
     enable( botaoTipo );
-    enable( inputCooldown );
-    enable( inputCooldownSerie );
-    enable( inputExercicioSerie );
-    enable( inputDescansoSerie );
+    //enable( inputCooldown );
+    //enable( inputCooldownSerie );
+    enable( inputExerMinutosSerie );
+    enable( inputExerSegundosSerie );
+    enable( inputDescMinutosSerie );
+    enable( inputDescSegundosSerie );
     enable( inputRodadasCro );
     enable( inputSegundosCro );
     enable( inputMinutosCro );
@@ -190,10 +196,12 @@ function showZero(s) {
     
 function callClock() {
     if ( !isClock ) {
+        resetTimer();
         isClock = true;
         full( false );
         hide( exit );
         show( clockExit );
+        spanTipo.innerHTML = "";
         clockTime = setInterval(clock, 0);
     } else {
         isClock = false;
@@ -283,14 +291,14 @@ function init() {
 
         for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
 
-            valorInput = parseInt( inputExercicioSerie.value );
+            valorInput = parseInt( inputExerSegundosSerie.value ) + ( parseInt( inputExerMinutosSerie.value ) * 60 );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
 
             cronometros.push( CronometroInput );
             
-            valorInput = parseInt( inputDescansoSerie.value );
+            valorInput = parseInt( inputDescSegundosSerie.value ) + ( parseInt( inputDescMinutosSerie.value ) * 60 );
             minutosInput = Math.floor( valorInput / 60 );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i);
@@ -298,16 +306,16 @@ function init() {
             cronometros.push( CronometroInput );
         }
 
-        if ( inputCooldown.checked ) {
+        // if ( inputCooldown.checked ) {
 
-            valorInput = parseInt( inputCooldownSerie.value );
-            minutosInput = Math.floor( valorInput / 60 );
-            segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cooldown");
+        //     valorInput = parseInt( inputCooldownSerie.value );
+        //     minutosInput = Math.floor( valorInput / 60 );
+        //     segundosInput =  valorInput - (minutosInput * 60);
+        //     CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cooldown");
 
-            cronometros.push( CronometroInput );
+        //     cronometros.push( CronometroInput );
             
-        }
+        // }
     }
     
     start();
