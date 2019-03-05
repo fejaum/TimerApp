@@ -10,7 +10,8 @@ let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, r
 let min                     = 0,
     seg                     = 0,
     segs                    = 0,
-    inputTempoCro           = document.querySelector("#tempo_cronometro"),
+    inputSegundosCro        = document.querySelector("#segundos_cronometro"),
+    inputMinutosCro         = document.querySelector("#minutos_cronometro"),
     inputRodadasCro         = document.querySelector("#rodadas_cronometro"),
     inputExercicioSerie     = document.querySelector("#exercicio_tempo"),
     inputDescansoSerie      = document.querySelector("#descanso_tempo"),
@@ -52,7 +53,8 @@ function start() {
     disable( inputExercicioSerie );
     disable( inputDescansoSerie );
     disable( inputRodadasCro );
-    disable( inputTempoCro );
+    disable( inputSegundosCro );
+    disable( inputMinutosCro );
     enable( botaoPause );
     enable( botaoStop );
     if (cronometro === 0) {   
@@ -123,7 +125,7 @@ function mudarTipo( tipo, rodada ) {
 
         default :
             spanRodada.innerHTML = "";
-            spanTipo.innerHTML = "3, 2, 1!";
+            spanTipo.innerHTML = "Começando!!";
             main.className = "";
             if ( full ) 
                 main.classList.add("full");
@@ -166,7 +168,8 @@ function resetTimer() {
     enable( inputExercicioSerie );
     enable( inputDescansoSerie );
     enable( inputRodadasCro );
-    enable( inputTempoCro );
+    enable( inputSegundosCro );
+    enable( inputMinutosCro );
     disable( botaoStop );
     disable( botaoPause );
     clearInterval( tempo );
@@ -228,10 +231,12 @@ function timer() {
                 }
                 seg--;
                 segs--;
-                if ( seg <= 3 && seg > 0 && min == 0 )
+                if ( cronometro === 0 && seg <= 3 && seg > 0 && min == 0 )
                     beep();
-                if ( seg <= 0 && min == 0 )
+                else if ( (cronometro + 1) == cronometros.length && seg <= 0 && min == 0 )
                     beep( true );
+                else if ( seg <= 0 && min == 0 )
+                    beep();
                 changeTime(min, seg);
             }
         }
@@ -267,8 +272,8 @@ function init() {
     if ( tipoCronometro == "cronometro" ) {
 
         for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
-            valorInput = parseInt( inputTempoCro.value );
-            minutosInput = Math.floor( valorInput / 60 );
+            valorInput = parseInt( inputSegundosCro.value ) + ( parseInt( inputMinutosCro.value ) * 60 );
+            minutosInput = parseInt( inputMinutosCro.value );
             segundosInput =  valorInput - (minutosInput * 60);
             CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro", i);
             cronometros.push( CronometroInput );
@@ -306,6 +311,22 @@ function init() {
     }
     
     start();
+}
+
+function maxLengthCheck(object) {
+    if (object.value.length > object.max.length)
+        object.value = object.value.slice(0, object.max.length)
+    }
+    
+  function isNumeric (evt) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode (key);
+    var regex = /[0-9]|\./;
+    if ( !regex.test(key) ) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+    }
 }
 
 function full( x ) {

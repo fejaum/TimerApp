@@ -60,10 +60,18 @@
                         <div class="card-panel z-depth-0">
                             <div class="row">
                                 <div class="col s12">
+                                    <label>Tempo</label>
+                                </div>
+                                <div class="col s6">
                                     <div class="input-field">
-                                        <input id="tempo_cronometro" type="number" value="120" min="1" max="3600" />
-                                        <label for="tempo">Tempo</label>
-                                        <span class="helper-text" data-error="wrong" data-success="right">Em segundos</span>          
+                                        <input id="minutos_cronometro" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                        <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
+                                    </div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="input-field">
+                                        <input id="segundos_cronometro" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                        <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
                                     </div>
                                 </div>
                             </div>
