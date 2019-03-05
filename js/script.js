@@ -7,16 +7,90 @@ let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, r
     this.rodada         = rodada
 }
 
+let Serie = function (active, number, isDeletable) {
+    this.active = active;
+    this.number = number;
+    this.isDeletable = isDeletable;
+}
+
+function deleteSerie(elem) {
+    const numberSerie = parseInt(elem.closest("li").id);
+    series = series.filter(function( value ){
+        return value.number !== numberSerie;
+    });
+    montaSerie();
+}
+
+function montaSerie() {
+    
+    const templateSerie =
+    `
+        <ul class="collapsible">
+            ${series.map((s) => 
+            `<li class="${s.active}" id="${s.number}">
+                <div class="collapsible-header">Circuito ${s.number} ${(() =>  (s.isDeletable) ?  `<a class="btn-flat right" onclick="deleteSerie(this)"><i class="material-icons">delete_forever</i></a>` : ``)()}
+                </div>
+                <div class="collapsible-body">                                    
+                    <div class="card-panel gruppe-amarelo z-depth-0">
+                        <div class="row">
+                            <div class="col s12">
+                                <label>Tempo de Exercício</label>
+                            </div>
+                            <div class="col s6">
+                                <div class="input-field">
+                                    <input id="exercicio_minutos_${s.number}" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                    <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="input-field">
+                                    <input id="exercicio_segundos_${s.number}" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                    <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel z-depth-0">
+                        <div class="row">
+                            <div class="col s12">
+                                <label>Tempo de Descanso</label>
+                            </div>
+                            <div class="col s6">
+                                <div class="input-field">
+                                    <input id="descanso_minutos_${s.number}" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                    <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="input-field">
+                                    <input id="descanso_segundos_${s.number}" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                    <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>`
+            ).join('')}
+        </ul>
+    `;
+
+    document.getElementById("collapsible").innerHTML = templateSerie;    
+
+    let elems = document.querySelectorAll('.collapsible');
+    let collapsible = M.Collapsible.init( elems , { 'accordion' : true } );
+}
+
 let min                     = 0,
     seg                     = 0,
     segs                    = 0,
     inputMinutosCro         = document.querySelector("#minutos_cronometro"),
     inputSegundosCro        = document.querySelector("#segundos_cronometro"),
     inputRodadasCro         = document.querySelector("#rodadas_cronometro"),
-    inputExerMinutosSerie   = document.querySelector("#exercicio_minutos"),
-    inputExerSegundosSerie  = document.querySelector("#exercicio_segundos"),
-    inputDescMinutosSerie   = document.querySelector("#descanso_minutos"),
-    inputDescSegundosSerie  = document.querySelector("#descanso_segundos"),
+    //inputExerMinutosSerie   = document.querySelector("#exercicio_minutos"),
+    //inputExerSegundosSerie  = document.querySelector("#exercicio_segundos"),
+    //inputDescMinutosSerie   = document.querySelector("#descanso_minutos"),
+    //inputDescSegundosSerie  = document.querySelector("#descanso_segundos"),
     //inputCooldownSerie      = document.querySelector("#cooldown_tempo"),
     //inputCooldown           = document.querySelector("input[name='cooldown']"),
     botaoPlay               = document.querySelector(".play"),
@@ -40,6 +114,7 @@ let min                     = 0,
     isClock                 = false,
     cronometro              = 0,
     cronometros             = [],
+    series                  = [],
     tipoCronometro          = "cronometro",
     tempo,
     clockTime,
@@ -52,10 +127,10 @@ function start() {
     disable( botaoTipo );
     //disable( inputCooldown );
     //disable( inputCooldownSerie );
-    disable( inputExerMinutosSerie );
-    disable( inputExerSegundosSerie );
-    disable( inputDescMinutosSerie );
-    disable( inputDescSegundosSerie );
+    //disable( inputExerMinutosSerie );
+    //disable( inputExerSegundosSerie );
+    //disable( inputDescMinutosSerie );
+    //disable( inputDescSegundosSerie );
     disable( inputRodadasCro );
     disable( inputSegundosCro );
     disable( inputMinutosCro );
@@ -169,10 +244,10 @@ function resetTimer() {
     enable( botaoTipo );
     //enable( inputCooldown );
     //enable( inputCooldownSerie );
-    enable( inputExerMinutosSerie );
-    enable( inputExerSegundosSerie );
-    enable( inputDescMinutosSerie );
-    enable( inputDescSegundosSerie );
+    //enable( inputExerMinutosSerie );
+    //enable( inputExerSegundosSerie );
+    //enable( inputDescMinutosSerie );
+    //enable( inputDescSegundosSerie );
     enable( inputRodadasCro );
     enable( inputSegundosCro );
     enable( inputMinutosCro );
@@ -291,19 +366,28 @@ function init() {
 
         for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
 
-            valorInput = parseInt( inputExerSegundosSerie.value ) + ( parseInt( inputExerMinutosSerie.value ) * 60 );
-            minutosInput = Math.floor( valorInput / 60 );
-            segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
+            series.forEach(serie => {
 
-            cronometros.push( CronometroInput );
-            
-            valorInput = parseInt( inputDescSegundosSerie.value ) + ( parseInt( inputDescMinutosSerie.value ) * 60 );
-            minutosInput = Math.floor( valorInput / 60 );
-            segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i);
+                let inputExerMinutosSerie = document.querySelector("#exercicio_minutos_" + serie.number);
+                let inputExerSegundosSerie = document.querySelector("#exercicio_segundos_" + serie.number);
 
-            cronometros.push( CronometroInput );
+                let inputDescMinutosSerie = document.querySelector("#descanso_minutos_" + serie.number);
+                let inputDescSegundosSerie = document.querySelector("#descanso_segundos_" + serie.number);
+
+                valorInput = parseInt( inputExerSegundosSerie.value ) + ( parseInt( inputExerMinutosSerie.value ) * 60 );
+                minutosInput = Math.floor( valorInput / 60 );
+                segundosInput =  valorInput - (minutosInput * 60);
+                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
+    
+                cronometros.push( CronometroInput );
+                
+                valorInput = parseInt( inputDescSegundosSerie.value ) + ( parseInt( inputDescMinutosSerie.value ) * 60 );
+                minutosInput = Math.floor( valorInput / 60 );
+                segundosInput =  valorInput - (minutosInput * 60);
+                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i);
+    
+                cronometros.push( CronometroInput );
+            });
         }
 
         // if ( inputCooldown.checked ) {
@@ -388,3 +472,12 @@ let tabCronometro = document.querySelector( "a[href='#cronometro']" );
 tabCronometro.onclick = function() {
     tipoCronometro = "cronometro";
 };
+
+function addCircuito() {
+    const numberCircuito = parseInt( series[series.length - 1 ].number ) + 1;
+    series.push(new Serie("", numberCircuito, true));
+    montaSerie();
+}
+
+series.push(new Serie("", 1, false));
+montaSerie();

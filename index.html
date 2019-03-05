@@ -78,44 +78,12 @@
                         </div>
                     </div>
                     <div id="serie" class="col s12">
-                        <div class="card-panel gruppe-amarelo z-depth-0">
-                            <div class="row">
-                                <div class="col s12">
-                                    <label>Tempo de Exercício</label>
-                                </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <input id="exercicio_minutos" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
-                                        <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
-                                    </div>
-                                </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <input id="exercicio_segundos" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
-                                        <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <a class="btn-floating btn-small waves-effect waves-light red" onclick="addCircuito()"><i class="material-icons">add</i></a>
                             </div>
                         </div>
-                        <div class="card-panel z-depth-0">
-                            <div class="row">
-                                <div class="col s12">
-                                    <label>Tempo de Descanso</label>
-                                </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <input id="descanso_minutos" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
-                                        <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
-                                    </div>
-                                </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <input id="descanso_segundos" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
-                                        <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="collapsible"></div>
                         <!-- <div class="card-panel grey lighten-2 z-depth-0">
                             <div class="row">
                                 <div class="col s12">
