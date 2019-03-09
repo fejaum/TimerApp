@@ -1,16 +1,22 @@
-let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, rodada ) {
-    this.tempoMin       = tempoMin;
-    this.tempoSeg       = tempoSeg;
-    this.tempoAtual     = tempoAtual;
-    this.progressivo    = progressivo;
-    this.tipo           = tipo;
-    this.rodada         = rodada
+let Cronometro = function ( tempoMin, tempoSeg, tempoAtual, progressivo, tipo, rodada, rodadas ) {
+    this.tempoMin              = tempoMin;
+    this.tempoSeg              = tempoSeg;
+    this.tempoAtual            = tempoAtual;
+    this.progressivo           = progressivo;
+    this.tipo                  = tipo;
+    this.rodada                = rodada;
+    this.rodadas               = rodadas;
 }
 
-let Serie = function (active, number, isDeletable) {
-    this.active = active;
-    this.number = number;
-    this.isDeletable = isDeletable;
+let Serie = function (active, number, isDeletable, rodada, tempoMinutoCronometro, tempoSegundoCronometro, tempoMinutoDescanso, tempoSegundoDescanso) {
+    this.active                 = active;
+    this.number                 = number;
+    this.isDeletable            = isDeletable;
+    this.rodada                 = ( rodada ) ? rodada : 1;
+    this.tempoMinutoCronometro  = ( tempoMinutoCronometro ) ? tempoMinutoCronometro : 2;
+    this.tempoSegundoCronometro = ( tempoSegundoCronometro ) ? tempoSegundoCronometro : 0;
+    this.tempoMinutoDescanso    = ( tempoMinutoDescanso ) ? tempoMinutoDescanso : 2;
+    this.tempoSegundoDescanso   = ( tempoSegundoDescanso ) ? tempoSegundoDescanso : 0;
 }
 
 function deleteSerie(elem) {
@@ -19,6 +25,30 @@ function deleteSerie(elem) {
         return value.number !== numberSerie;
     });
     montaSerie();
+}
+
+function changeValue(number, type, value) {
+    series.forEach(serie => {
+        if ( serie.number == number ) {
+            switch ( type ) {
+                case 'em' :
+                    serie.tempoMinutoCronometro = parseInt( value );
+                break;
+                case 'es' :
+                    serie.tempoSegundoCronometro = parseInt( value );
+                break;
+                case 'dm' :
+                    serie.tempoMinutoDescanso = parseInt( value );
+                break;
+                case 'ds' :
+                    serie.tempoSegundoDescanso = parseInt( value );
+                break;
+                case 'rd' :
+                    serie.rodada = parseInt( value );
+                break;
+            }
+        }
+    });
 }
 
 function montaSerie() {
@@ -38,13 +68,13 @@ function montaSerie() {
                             </div>
                             <div class="col s6">
                                 <div class="input-field">
-                                    <input id="exercicio_minutos_${s.number}" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                    <input id="exercicio_minutos_${s.number}" type="number" value="${s.tempoMinutoCronometro}" min="0" max="60" onkeypress="return isNumeric(event);" onchange="changeValue(${s.number}, 'em', this.value);" oninput="maxLengthCheck(this)" autofocus />    
                                     <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
                                 </div>
                             </div>
                             <div class="col s6">
                                 <div class="input-field">
-                                    <input id="exercicio_segundos_${s.number}" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                    <input id="exercicio_segundos_${s.number}" type="number" value="${s.tempoSegundoCronometro}" min="0" max="59" onkeypress="return isNumeric(event);" onchange="changeValue(${s.number}, 'es', this.value);" oninput="maxLengthCheck(this)"  />     
                                     <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
                                 </div>
                             </div>
@@ -57,14 +87,24 @@ function montaSerie() {
                             </div>
                             <div class="col s6">
                                 <div class="input-field">
-                                    <input id="descanso_minutos_${s.number}" type="number" value="2" min="0" max="60" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" autofocus />    
+                                    <input id="descanso_minutos_${s.number}" type="number" value="${s.tempoMinutoDescanso}" min="0" max="60" onkeypress="return isNumeric(event);" onchange="changeValue(${s.number}, 'dm', this.value);" oninput="maxLengthCheck(this)" autofocus />    
                                     <span class="helper-text" data-error="wrong" data-success="right">Minutos</span> 
                                 </div>
                             </div>
                             <div class="col s6">
                                 <div class="input-field">
-                                    <input id="descanso_segundos_${s.number}" type="number" value="0" min="0" max="59" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)"  />     
+                                    <input id="descanso_segundos_${s.number}" type="number" value="${s.tempoSegundoDescanso}" min="0" max="59" onkeypress="return isNumeric(event);" onchange="changeValue(${s.number}, 'ds', this.value);" oninput="maxLengthCheck(this)"  />     
                                     <span class="helper-text" data-error="wrong" data-success="right">Segundos</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel z-depth-0">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="input-field">
+                                    <input id="rodadas_${s.number}" type="number" value="${s.rodada}" min="1" max="60" onkeypress="return isNumeric(event);" onchange="changeValue(${s.number}, 'rd', this.value);" oninput="maxLengthCheck(this)" />
+                                    <label for="rodadas_${s.number}">Rodadas</label>
                                 </div>
                             </div>
                         </div>
@@ -332,8 +372,10 @@ function pausar() {
 function proximo() {
     resetTimer();
     cronometro++;
-    if (cronometro < cronometros.length)
+    if (cronometro < cronometros.length) {
+        qtdRodadas = cronometros[cronometro].rodadas;
         start();
+    }
 }
 
 function init() {
@@ -361,15 +403,17 @@ function init() {
             valorInput = parseInt( inputSegundosCro.value ) + ( parseInt( inputMinutosCro.value ) * 60 );
             minutosInput = parseInt( inputMinutosCro.value );
             segundosInput =  valorInput - (minutosInput * 60);
-            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro", i);
+            CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "cronometro", i, qtdRodadas);
             cronometros.push( CronometroInput );
         }
 
     } else {
 
-        for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
+        series.forEach(serie => {
 
-            series.forEach(serie => {
+            qtdRodadas = parseInt( document.querySelector("#rodadas_" + serie.number).value );
+            
+            for ( let i = 1; i <= qtdRodadas ; i++ ) {
 
                 let inputExerMinutosSerie = document.querySelector("#exercicio_minutos_" + serie.number);
                 let inputExerSegundosSerie = document.querySelector("#exercicio_segundos_" + serie.number);
@@ -380,8 +424,8 @@ function init() {
                 valorInput = parseInt( inputExerSegundosSerie.value ) + ( parseInt( inputExerMinutosSerie.value ) * 60 );
                 minutosInput = Math.floor( valorInput / 60 );
                 segundosInput =  valorInput - (minutosInput * 60);
-                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
-    
+                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i, qtdRodadas);
+
                 cronometros.push( CronometroInput );
 
                 let inputDescMinutosSerie = document.querySelector("#descanso_minutos_" + serie.number);
@@ -393,11 +437,11 @@ function init() {
                 valorInput = parseInt( inputDescSegundosSerie.value ) + ( parseInt( inputDescMinutosSerie.value ) * 60 );
                 minutosInput = Math.floor( valorInput / 60 );
                 segundosInput =  valorInput - (minutosInput * 60);
-                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i);
-    
+                CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "descanso", i, qtdRodadas);
+
                 cronometros.push( CronometroInput );
-            });
-        }
+            }
+        });
 
         // if ( inputCooldown.checked ) {
 
