@@ -100,8 +100,9 @@ let min                     = 0,
     botaoClock              = document.querySelector(".clock"),
     botaoTipo               = document.querySelector("input[name='tipo']"),
     spanTimer               = document.querySelector(".timer"),
-    somBeep                 = document.querySelector(".beep"),
-    somBeepFinal            = document.querySelector(".beep-final"),
+    beepSM                  = document.querySelector(".beep-sm"),
+    beepMD                  = document.querySelector(".beep-md"),
+    beepLG                  = document.querySelector(".beep-lg"),
     exit                    = document.querySelector(".fullscreen-exit"),
     clockExit               = document.querySelector(".clock-exit"),
     spanTipo                = document.querySelector("span.tipo"),
@@ -212,21 +213,17 @@ function mudarTipo( tipo, rodada ) {
     }
 }
 
-function beep( final ) {
-    if ( final ) {
-        var teste = somBeepFinal.play();
-        if (teste !== undefined) {
-            teste.then(function() {
-                console.log( "FOI!" );
-            }).catch(function(error) {
-                console.log( "NÃO FOI!" );
-            });
-        }
-        console.log("beeeeeeeeeeeeep");
-    }
-    else {
-        somBeep.play();
-        console.log("beep");
+function beep( size ) {
+    switch (size) {
+        case 'sm' :
+            beepSM.play();
+        break;
+        case 'md' :
+            beepMD.play();
+        break;
+        case 'lg' :
+            beepLG.play();
+        break;
     }
 }
 
@@ -292,14 +289,16 @@ function timer() {
         if ( cronometros[cronometro].progressivo ) {
             seg++;
             segs++;
-            if ( seg >= (cronometros[cronometro].tempoSeg - 3) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
-                beep();
-            if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
+            if ( cronometro === 0 && seg >= (cronometros[cronometro].tempoSeg - 2) && seg < cronometros[cronometro].tempoSeg && min >= (cronometros[cronometro].tempoMin - 1) )
+                beep( 'sm' );
+            else if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
                 seg = 0;
                 min++;
-            }
-            if (segs == cronometros[cronometro].tempoAtual) {
-                beep( true );
+            } else if ( (cronometro + 1) == cronometros.length && segs == cronometros[cronometro].tempoAtual ) {
+                beep( 'lg' );
+                proximo();
+            } else if ( segs == cronometros[cronometro].tempoAtual ) {
+                beep( 'md' );
                 proximo();
             }
             changeTime(min, seg);
@@ -314,12 +313,12 @@ function timer() {
                 }
                 seg--;
                 segs--;
-                if ( cronometro === 0 && seg <= 3 && seg > 0 && min == 0 )
-                    beep();
+                if ( cronometro === 0 && seg <= 2 && seg > 0 && min == 0 )
+                    beep( 'sm' );
                 else if ( (cronometro + 1) == cronometros.length && seg <= 0 && min == 0 )
-                    beep( true );
+                    beep( 'lg' );
                 else if ( seg <= 0 && min == 0 )
-                    beep();
+                    beep( 'md' );
                 changeTime(min, seg);
             }
         }
@@ -355,6 +354,10 @@ function init() {
     if ( tipoCronometro == "cronometro" ) {
 
         for ( let i = 1; i <= parseInt( qtdRodadas ); i++ ) {
+
+            inputSegundosCro.value = ( inputSegundosCro.value ) ? inputSegundosCro.value : 0;
+            inputMinutosCro.value = ( inputMinutosCro.value ) ? inputMinutosCro.value : 0;
+
             valorInput = parseInt( inputSegundosCro.value ) + ( parseInt( inputMinutosCro.value ) * 60 );
             minutosInput = parseInt( inputMinutosCro.value );
             segundosInput =  valorInput - (minutosInput * 60);
@@ -371,8 +374,8 @@ function init() {
                 let inputExerMinutosSerie = document.querySelector("#exercicio_minutos_" + serie.number);
                 let inputExerSegundosSerie = document.querySelector("#exercicio_segundos_" + serie.number);
 
-                let inputDescMinutosSerie = document.querySelector("#descanso_minutos_" + serie.number);
-                let inputDescSegundosSerie = document.querySelector("#descanso_segundos_" + serie.number);
+                inputExerMinutosSerie.value = ( inputExerMinutosSerie.value ) ? inputExerMinutosSerie.value : 0;
+                inputExerSegundosSerie.value = ( inputExerSegundosSerie.value ) ? inputExerSegundosSerie.value : 0;
 
                 valorInput = parseInt( inputExerSegundosSerie.value ) + ( parseInt( inputExerMinutosSerie.value ) * 60 );
                 minutosInput = Math.floor( valorInput / 60 );
@@ -380,6 +383,12 @@ function init() {
                 CronometroInput = new Cronometro(minutosInput, segundosInput, valorInput, botaoTipo.checked, "exercicio", i);
     
                 cronometros.push( CronometroInput );
+
+                let inputDescMinutosSerie = document.querySelector("#descanso_minutos_" + serie.number);
+                let inputDescSegundosSerie = document.querySelector("#descanso_segundos_" + serie.number);
+
+                inputDescMinutosSerie.value = ( inputDescMinutosSerie.value ) ? inputDescMinutosSerie.value : 0;
+                inputDescSegundosSerie.value = ( inputDescSegundosSerie.value ) ? inputDescSegundosSerie.value : 0;
                 
                 valorInput = parseInt( inputDescSegundosSerie.value ) + ( parseInt( inputDescMinutosSerie.value ) * 60 );
                 minutosInput = Math.floor( valorInput / 60 );
