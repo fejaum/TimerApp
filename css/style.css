@@ -104,30 +104,30 @@ main {
 
 @media screen and (min-width: 992px) {
     .timer-content .timer {
-        font-size: 18rem;
+        font-size: 17rem;
     }
 }
 
 @media screen and (min-width: 1200px) {
     .timer-content .timer {
-        font-size: 20rem;
+        font-size: 19rem;
     }
 }
 
 @media screen and (min-width: 1440px) {
     .timer-content .timer {
-        font-size: 24rem;
+        font-size: 23rem;
     }
 }
 
 @media screen and (min-width: 1600px) {
     .timer-content .timer {
-        font-size: 26rem;
+        font-size: 25rem;
     }
 }
 
 @media screen and (min-width: 1800px) {
     .timer-content .timer {
-        font-size: 30rem;
+        font-size: 29rem;
     }
 }

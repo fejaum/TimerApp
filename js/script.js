@@ -334,7 +334,8 @@ function timer() {
             else if ( seg === 60 && min !== cronometros[cronometro].tempoMin ) {
                 seg = 0;
                 min++;
-            } else if ( (cronometro + 1) == cronometros.length && segs == cronometros[cronometro].tempoAtual ) {
+            }
+            if ( (cronometro + 1) == cronometros.length && segs == cronometros[cronometro].tempoAtual ) {
                 beep( 'lg' );
                 proximo();
             } else if ( segs == cronometros[cronometro].tempoAtual ) {
