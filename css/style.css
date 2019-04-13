@@ -95,38 +95,59 @@ main {
     flex: 1 0 auto;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 15rem;
         margin: 5rem auto;
     }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 768px) and (max-height: 600px) {
+    .timer-content .timer {
+        font-size: 15rem;
+        margin: 2rem auto;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-height: 500px) {
+    .timer-content .timer {
+        font-size: 12rem;
+        margin: 2rem auto;
+    }
+}
+
+@media screen and (min-width: 992px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 17rem;
     }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 19rem;
+        margin: 6rem auto;
     }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1440px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 23rem;
     }
 }
 
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1600px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 25rem;
     }
 }
 
-@media screen and (min-width: 1800px) {
+@media screen and (min-width: 1800px) and (min-height: 600px) {
+    .timer-content .timer {
+        font-size: 29rem;
+    }
+}
+
+@media screen and (min-width: 1800px) and (min-height: 600px) {
     .timer-content .timer {
         font-size: 29rem;
     }
